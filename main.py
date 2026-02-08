@@ -1,6 +1,14 @@
 """Entry point for the sarif-sample script."""
 
+import os
 import sys
+
+typed_number: int = "not an int"
+
+
+def lint_and_type_errors(value: int) -> int:
+    unused_local = 1
+    return value + "1"
 
 
 def main() -> int:
