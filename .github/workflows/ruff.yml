@@ -23,7 +23,7 @@ jobs:
         run: uv run ruff check --output-format=github
       - name: Generate SARIF file
         if: ${{ !cancelled() }}
-        run: uv run ruff check --output-format=sarif --output=ruff.sarif
+        run: uv run ruff check --output-format=sarif --output-file=ruff.sarif
       - name: Upload SARIF file
         if: ${{ !cancelled() }}
         uses: github/codeql-action/upload-sarif@v4
