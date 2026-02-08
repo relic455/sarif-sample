@@ -7,14 +7,11 @@ on:
     types: [opened, synchronize, reopened] # PR の更新時に実行
   workflow_dispatch:
 jobs:
-  build:
+  ruff:
     runs-on: ubuntu-latest
     permissions:
       # required for all workflows
       security-events: write
-      # only required for workflows in private repositories
-      actions: read
-      contents: read
     steps:
       - uses: actions/checkout@v6
       - name: Install Python
@@ -29,3 +26,25 @@ jobs:
         uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: ruff.sarif
+  pylint:
+    runs-on: ubuntu-latest
+    permissions:
+      # required for all workflows
+      security-events: write
+    steps:
+      - uses: actions/checkout@v6
+      - name: Install Python
+        uses: astral-sh/setup-uv@v7
+      - name: Run Pylint
+        run: uv run pylint main.py --output-format=github
+  ty:
+    runs-on: ubuntu-latest
+    permissions:
+      # required for all workflows
+      security-events: write
+    steps:
+      - uses: actions/checkout@v6
+      - name: Install Python
+        uses: astral-sh/setup-uv@v7
+      - name: Run ty
+        run: uv run ty check --output-format=github
