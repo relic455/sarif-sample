@@ -20,10 +20,11 @@ jobs:
       - name: Install Python
         uses: astral-sh/setup-uv@v7
       - name: Run Ruff
-        run: | 
-          uv run ruff check --output-format=github
-          uv run ruff check --output-format=saruff --output=ruff.sarif
+        run: uv run ruff check --output-format=github
+      - name: Generate SARIF file
+        run: uv run ruff check --output-format=sarif --output=ruff.sarif
       - name: Upload SARIF file
+        if: ${{ !cancelled() }}
         uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: ruff.sarif
