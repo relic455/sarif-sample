@@ -1,7 +1,5 @@
 """Entry point for the sarif-sample script."""
 
-from __future__ import annotations
-
 import sys
 
 
