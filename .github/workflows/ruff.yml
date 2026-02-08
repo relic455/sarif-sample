@@ -1,0 +1,29 @@
+name: Lint
+on:
+  push:
+    branches: [main] # デフォルトブランチだけ実行
+  pull_request:
+    branches: [main] # main への PR だけ検証
+    types: [opened, synchronize, reopened] # PR の更新時に実行
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      # required for all workflows
+      security-events: write
+      # only required for workflows in private repositories
+      actions: read
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+      - name: Install Python
+        uses: astral-sh/setup-uv@v7
+      - name: Run Ruff
+        run: | 
+          uv run ruff check --output-format=github
+          uv run ruff check --output-format=saruff --output=ruff.sarif
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: ruff.sarif

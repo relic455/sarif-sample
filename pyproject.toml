@@ -10,3 +10,9 @@ dependencies = []
 dev = [
     "ruff>=0.15.0",
 ]
+
+[tool.ruff]
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ['ALL']
